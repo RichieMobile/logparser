@@ -15,7 +15,7 @@ Log: /home/user/log.log
 Config: /home/user/config.json
 
 --------
-Analyzing Log"
+Analyzing Log
 --------
 
 Fun times = 2
