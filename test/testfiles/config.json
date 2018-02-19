@@ -2,6 +2,9 @@
     "rules": [
         {
             "matcher" : "conreq"
+        },
+        {
+            "matcher" : "Rest Request"
         }
     ]
 }
