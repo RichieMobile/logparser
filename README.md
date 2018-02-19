@@ -50,8 +50,9 @@ Okay times
 
 ## Development
 
-(Assumming OSX)
+(Assumming OSX with Homebrew)
 
+- brew install haskell-stack
 - clone the project
 - cd to project root
 - run "stack install" to verify install
