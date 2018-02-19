@@ -45,7 +45,6 @@ countLines :: Matcher -> [String] -> Int
 countLines _ [] = 0 
 countLines "" _ = 0
 countLines m (x:xs) = (count m x) + (countLines m xs)
-
 -- non-recursive verison, not sure how haskell handles tail optimization
 -- countLines m xs = foldl (\a b -> (count m b) + a) 0 xs
 
