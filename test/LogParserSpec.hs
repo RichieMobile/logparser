@@ -13,7 +13,9 @@ spec :: Spec
 spec = do
   describe "parse" $ do
     it "Should read a log file and a config file and display processor output properly" $ do
-      let expected = "\nCount Match\nconreq = 2\n\nRatio Match\nconreq = 2.0\nRest Request = 2.0\n2.0/4.0 = \"0.50\"\n"
+      let expected ="\nCount Match\nconreq = 2\n\nRatio Match\nSuccessful: \
+        \conreq = 2.0\nFailed: Rest Request = 2.0\nSuccessful %: 50.00%\n\
+        \Failed %: 50.00%\n\n"
       parse "test/testfiles/config.json" ["test/testfiles/log.log"] `shouldReturn` expected
 
   describe "parseWithMatcher" $ do
@@ -40,6 +42,7 @@ spec = do
 
   describe "parseWithRatio" $ do
     it "Should use matcher and comparator to create a ratio from the log file" $ do
-      let expected = "conreq = 2.0\nfun = 3.0\n2.0/5.0 = \"0.40\""
+      let expected = "Successful: conreq = 2.0\nFailed: fun = 3.0\n\
+        \Successful %: 40.00%\nFailed %: 60.00%\n"
       let lines = ["conreq", "conreq", "fun", "fun", "fun"]
       parseWithRatio "conreq" "fun" lines `shouldBe` expected

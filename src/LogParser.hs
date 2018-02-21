@@ -46,11 +46,13 @@ parseWithMatcher m xs = m ++ " = " ++ (show $ countLines m xs)
 parseWithRatio :: Matcher -> String -> [String] -> String
 parseWithRatio m c xs = 
     let (mCount, cCount, ratio) = calculateRatio m c xs
-        roundedRatio = showFFloat (Just 2) ratio ""
+        roundedRatio = showFFloat (Just 2) (ratio * 100) "%"
+        roundedRatioFailed = showFFloat (Just 2) ((1.0 - ratio) * 100) "%"
         format f s = f ++ " = " ++ (show s)
-    in  (format m mCount) ++ "\n" ++ 
-        (format c cCount) ++ "\n" ++ 
-        (format ((show mCount) ++ "/" ++ (show $ mCount + cCount)) roundedRatio)
+    in  ("Successful: " ++ (format m mCount)) ++ "\n" ++ 
+        ("Failed: " ++ (format c cCount)) ++ "\n" ++ 
+        ("Successful %: " ++ roundedRatio) ++ "\n" ++
+        ("Failed %: " ++ roundedRatioFailed) ++ "\n"
 
 
 calculateRatio :: Matcher -> String -> [String] -> (Float, Float, Float)
