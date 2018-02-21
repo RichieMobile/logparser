@@ -6,15 +6,15 @@ module Domain.ConfigRules where
 import Data.List
 import Data.Aeson
 import GHC.Generics
-import Domain.Rule
+import qualified Domain.Rule as R
 import qualified Data.ByteString.Lazy as B
 
 data ConfigRules = ConfigRules {
-    rules :: [Rule]
+    rules :: [R.Rule]
 } deriving (Eq, Generic, Show)
 
 emptyConfig :: ConfigRules
-emptyConfig = ConfigRules [Rule ""]
+emptyConfig = ConfigRules [R.Rule "" "" R.counter]
 
 instance FromJSON ConfigRules
 

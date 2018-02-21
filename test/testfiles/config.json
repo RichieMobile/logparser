@@ -1,10 +1,14 @@
 {
     "rules": [
         {
-            "matcher" : "conreq"
+            "matcher" : "conreq",
+            "comparitor" : "",
+            "processor" : ""
         },
         {
-            "matcher" : "Rest Request"
+            "matcher" : "Rest Request",
+            "comparitor" : "",
+            "processor" : ""
         }
     ]
 }

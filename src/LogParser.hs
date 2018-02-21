@@ -6,6 +6,7 @@ import Data.Aeson
 import GHC.Generics
 import Domain.ConfigRules
 import Domain.Rule
+import Numeric
 import qualified Data.ByteString.Lazy as B
 
 type LogFilePath = String
@@ -22,6 +23,24 @@ parse l c = do
 
 parseWithMatcher :: Matcher -> [String] -> String
 parseWithMatcher m xs = m ++ " = " ++ (show $ countLines m xs)
+
+parseWithRatio :: Matcher -> String -> [String] -> String
+parseWithRatio m c xs = 
+    let (mCount, cCount, ratio) = calculateRatio m c xs
+        roundedRatio = showFFloat (Just 2) ratio ""
+        format f s = f ++ " = " ++ (show s)
+    in  (format m mCount) ++ "\n" ++ 
+        (format c cCount) ++ "\n" ++ 
+        (format (m ++ "/" ++ c) roundedRatio)
+
+
+calculateRatio :: Matcher -> String -> [String] -> (Float, Float, Float)
+calculateRatio m c xs = 
+    let mCount = fromIntegral $ countLines m xs 
+        cCount = fromIntegral $ countLines c xs
+        ratio = if cCount == 0 then 1.0
+                else (mCount / cCount)
+    in (mCount, cCount, ratio)
 
 countLines :: Matcher -> [String] -> Int
 countLines _ [] = 0 

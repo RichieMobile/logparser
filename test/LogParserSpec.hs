@@ -33,3 +33,13 @@ spec = do
   describe "count" $ do
     it "Should take a line from a log and count the number of matching parameters" $
       count "conreq" "conreq completed succesfully" `shouldBe` 1
+
+  describe "calculateRatio" $ do
+    it "Should use matcher and comparator to create a ratio from the log file" $
+      calculateRatio "conreq" "fun" ["conreq", "conreq", "fun", "fun", "fun"] `shouldBe` (2.0, 3.0, 0.6666667) 
+
+  describe "parseWithRatio" $ do
+    it "Should use matcher and comparator to create a ratio from the log file" $ do
+      let expected = "conreq = 2.0\nfun = 3.0\nconreq/fun = \"0.67\""
+      let lines = ["conreq", "conreq", "fun", "fun", "fun"]
+      parseWithRatio "conreq" "fun" lines `shouldBe` expected

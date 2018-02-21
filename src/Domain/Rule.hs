@@ -9,8 +9,13 @@ import GHC.Generics
 
 type Matcher = String
 
+counter = "count"
+ratio = "ratio"
+
 data Rule = Rule {
-    matcher :: Matcher
+      matcher :: Matcher
+    , comparitor :: String
+    , processor :: String
 } deriving (Eq, Generic, Show)
 
 instance FromJSON Rule
