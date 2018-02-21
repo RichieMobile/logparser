@@ -23,8 +23,8 @@ parse l c = do
 
 parseWithRule :: Rule -> [String] -> String
 parseWithRule r xs = case (processor r) of
-        "count" -> parseWithMatcher (matcher r) xs
-        "ratio" -> parseWithRatio (matcher r) (comparitor r) xs 
+        "count" -> "\nCount Match\n" ++ parseWithMatcher (matcher r) xs
+        "ratio" -> "\nRatio Match\n" ++ parseWithRatio (matcher r) (comparitor r) xs 
         _ -> "Unknown processor!"
 
 parseWithMatcher :: Matcher -> [String] -> String
@@ -37,7 +37,7 @@ parseWithRatio m c xs =
         format f s = f ++ " = " ++ (show s)
     in  (format m mCount) ++ "\n" ++ 
         (format c cCount) ++ "\n" ++ 
-        (format (m ++ "/" ++ c) roundedRatio)
+        (format ((show mCount) ++ "/" ++ (show $ mCount + cCount)) roundedRatio)
 
 
 calculateRatio :: Matcher -> String -> [String] -> (Float, Float, Float)
