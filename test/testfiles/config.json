@@ -3,12 +3,12 @@
         {
             "matcher" : "conreq",
             "comparitor" : "",
-            "processor" : ""
+            "processor" : "count"
         },
         {
-            "matcher" : "Rest Request",
-            "comparitor" : "",
-            "processor" : ""
+            "matcher" : "conreq",
+            "comparitor" : "Rest Request",
+            "processor" : "ratio"
         }
     ]
 }

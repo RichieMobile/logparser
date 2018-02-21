@@ -18,8 +18,14 @@ parse l c = do
     logContents <- readFile l
     let parsedRules = rules $ decodeConfig configContents
     let line = lines logContents
-    let output = foldl (\o m -> o ++ (parseWithMatcher (matcher m) line) ++ "\n") "" parsedRules
+    let output = foldl (\o m -> o ++ (parseWithRule m line) ++ "\n") "" parsedRules
     return output
+
+parseWithRule :: Rule -> [String] -> String
+parseWithRule r xs = case (processor r) of
+        "count" -> parseWithMatcher (matcher r) xs
+        "ratio" -> parseWithRatio (matcher r) (comparitor r) xs 
+        _ -> "Unknown processor!"
 
 parseWithMatcher :: Matcher -> [String] -> String
 parseWithMatcher m xs = m ++ " = " ++ (show $ countLines m xs)

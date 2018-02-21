@@ -12,8 +12,8 @@ main = hspec spec
 spec :: Spec
 spec = do
   describe "parse" $ do
-    it "Should read a log file and a config file and return the number of matching lines that are found" $ do
-      let expected = "conreq = 2\nRest Request = 2\n"
+    it "Should read a log file and a config file and display processor output properly" $ do
+      let expected = "conreq = 2\nconreq = 2.0\nRest Request = 2.0\nconreq/Rest Request = \"1.00\"\n"
       parse "test/testfiles/log.log" "test/testfiles/config.json" `shouldReturn` expected
 
   describe "parseWithMatcher" $ do
