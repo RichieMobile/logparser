@@ -5,14 +5,14 @@ import qualified LogParser as L
 
 main :: IO ()
 main = do
-    args <- getArgs
-    let logFile = args !! 0
-    let config = args !! 1
-    putStrLn $ "Log: " ++ logFile
+    (a:as) <- getArgs
+    let config = a
+    let logs = as
     putStrLn $ "Config: " ++ config
+    putStrLn $ "Log: " ++ (show logs)
     putStrLn "\n--------"
     putStrLn "Analyzing Log"
     putStrLn "--------\n"
 
-    output <- L.parse logFile config
+    output <- L.parse config logs
     putStrLn output

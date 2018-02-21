@@ -7,19 +7,32 @@ import GHC.Generics
 import Domain.ConfigRules
 import Domain.Rule
 import Numeric
+import Control.Monad
 import qualified Data.ByteString.Lazy as B
+import qualified Data.ByteString.Char8 as C
 
 type LogFilePath = String
 type ConfigFilePath = String
 
-parse :: LogFilePath -> ConfigFilePath -> IO String
-parse l c = do 
+parse :: ConfigFilePath -> [LogFilePath] -> IO String
+parse c l = do 
     configContents <- B.readFile c
-    logContents <- readFile l
+    logContents <- readFiles l
     let parsedRules = rules $ decodeConfig configContents
-    let line = lines logContents
-    let output = foldl (\o m -> o ++ (parseWithRule m line) ++ "\n") "" parsedRules
+    let output = foldl (\o m -> o ++ (parseWithRule m logContents) ++ "\n") "" parsedRules
     return output
+
+readFiles :: [FilePath] -> IO [String]
+-- readFiles = fmap concat . lines . readFile
+readFiles files = do
+    fileLines <- foldM readLogFile [] files
+    return fileLines
+
+readLogFile :: [String] -> FilePath -> IO [String]
+readLogFile a f = do 
+    file <- readFile f
+    let fileLines = lines file
+    return $ concat (fileLines:[a])
 
 parseWithRule :: Rule -> [String] -> String
 parseWithRule r xs = case (processor r) of

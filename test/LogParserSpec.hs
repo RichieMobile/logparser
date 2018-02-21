@@ -14,7 +14,7 @@ spec = do
   describe "parse" $ do
     it "Should read a log file and a config file and display processor output properly" $ do
       let expected = "\nCount Match\nconreq = 2\n\nRatio Match\nconreq = 2.0\nRest Request = 2.0\n2.0/4.0 = \"0.50\"\n"
-      parse "test/testfiles/log.log" "test/testfiles/config.json" `shouldReturn` expected
+      parse "test/testfiles/config.json" ["test/testfiles/log.log"] `shouldReturn` expected
 
   describe "parseWithMatcher" $ do
     it "Should return formated string output `matcher` = `count`" $
