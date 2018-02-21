@@ -5,12 +5,14 @@ are found having a specific string.
 
 ## How to use it
 
-logparse takes two arguments, first being path to a log file and the second 
-being a json config file that specifies what strings to look for. 
+logparse takes two arguments, first being a json config file that specifies 
+what strings to look for and the second being a variable number of paths to
+log files.
+. 
 Example below (with output):
 
 ```
-user>./logparser /home/user/log.log /home/user/config.json
+user>./logparser /home/user/config.json /home/user/log.log 
 Log: /home/user/log.log
 Config: /home/user/config.json
 
