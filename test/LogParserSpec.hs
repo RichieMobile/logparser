@@ -13,7 +13,7 @@ spec :: Spec
 spec = do
   describe "parse" $ do
     it "Should read a log file and a config file and display processor output properly" $ do
-      let expected = "conreq = 2\nconreq = 2.0\nRest Request = 2.0\nconreq/Rest Request = \"1.00\"\n"
+      let expected = "conreq = 2\nconreq = 2.0\nRest Request = 2.0\nconreq/Rest Request = \"0.50\"\n"
       parse "test/testfiles/log.log" "test/testfiles/config.json" `shouldReturn` expected
 
   describe "parseWithMatcher" $ do
@@ -36,10 +36,10 @@ spec = do
 
   describe "calculateRatio" $ do
     it "Should use matcher and comparator to create a ratio from the log file" $
-      calculateRatio "conreq" "fun" ["conreq", "conreq", "fun", "fun", "fun"] `shouldBe` (2.0, 3.0, 0.6666667) 
+      calculateRatio "conreq" "fun" ["conreq", "conreq", "fun", "fun", "fun"] `shouldBe` (2.0, 3.0, 0.4) 
 
   describe "parseWithRatio" $ do
     it "Should use matcher and comparator to create a ratio from the log file" $ do
-      let expected = "conreq = 2.0\nfun = 3.0\nconreq/fun = \"0.67\""
+      let expected = "conreq = 2.0\nfun = 3.0\nconreq/fun = \"0.40\""
       let lines = ["conreq", "conreq", "fun", "fun", "fun"]
       parseWithRatio "conreq" "fun" lines `shouldBe` expected

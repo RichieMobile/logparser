@@ -45,7 +45,7 @@ calculateRatio m c xs =
     let mCount = fromIntegral $ countLines m xs 
         cCount = fromIntegral $ countLines c xs
         ratio = if cCount == 0 then 1.0
-                else (mCount / cCount)
+                else (mCount / (cCount + mCount))
     in (mCount, cCount, ratio)
 
 countLines :: Matcher -> [String] -> Int
