@@ -9,7 +9,6 @@ import Domain.Rule
 import Numeric
 import Control.Monad
 import qualified Data.ByteString.Lazy as B
-import qualified Data.ByteString.Char8 as C
 
 type LogFilePath = String
 type ConfigFilePath = String
@@ -17,14 +16,13 @@ type ConfigFilePath = String
 parse :: ConfigFilePath -> [LogFilePath] -> IO String
 parse c l = do 
     configContents <- B.readFile c
-    logContents <- readFiles l
+    logContents <- readLogFiles l
     let parsedRules = rules $ decodeConfig configContents
     let output = foldl (\o m -> o ++ (parseWithRule m logContents) ++ "\n") "" parsedRules
     return output
 
-readFiles :: [FilePath] -> IO [String]
--- readFiles = fmap concat . lines . readFile
-readFiles files = do
+readLogFiles :: [FilePath] -> IO [String]
+readLogFiles files = do
     fileLines <- foldM readLogFile [] files
     return fileLines
 
@@ -53,7 +51,6 @@ parseWithRatio m c xs =
         ("Failed: " ++ (format c cCount)) ++ "\n" ++ 
         ("Successful %: " ++ roundedRatio) ++ "\n" ++
         ("Failed %: " ++ roundedRatioFailed) ++ "\n"
-
 
 calculateRatio :: Matcher -> String -> [String] -> (Float, Float, Float)
 calculateRatio m c xs = 
