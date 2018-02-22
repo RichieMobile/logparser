@@ -26,3 +26,8 @@ spec = do
         let dateLine = "2018-02-20 09:06:54"
         let format = "%Y-%m-%d %T"
         show (parseTimestamp format dateLine) `shouldBe` "2018-02-20 09:06:54 UTC"
+
+    it "Should calculate average time in picoseconds" $ do
+        let dateLine = ["C: 2018-02-20 09:06:54", "D: 2018-02-20 10:06:54"]
+        let format = "%Y-%m-%d %T"
+        show (calculateAverageTime "C:" "D:" format "2-21" dateLine) `shouldBe` "-60"
