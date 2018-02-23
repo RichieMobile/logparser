@@ -4,13 +4,19 @@ import Data.List
 import Data.Time
 import Data.Time.Format
 import Data.Time.Clock
-import qualified LogParser as L
 
 type BeginningComp = String
 type EndComp = String
 type TimeF = String
 type FileLines = String
 type Range = String
+
+parseAverageTime :: BeginningComp -> EndComp -> TimeF -> Range -> [FileLines] -> String
+parseAverageTime bC eC f r lines =
+    "\n Average Time to Complete\n" ++ 
+    "Comparitor 1: " ++ bC ++
+    "Comparitor 2: " ++ eC ++
+    "Average time to complete (minutes): " ++ show (calculateAverageTime bC eC f r lines)
 
 calculateAverageTime :: BeginningComp -> EndComp -> TimeF -> Range -> [FileLines] -> Integer
 calculateAverageTime bC eC f r lines = 
@@ -45,9 +51,12 @@ parseRange' r i = do
 
 isMatch :: String -> String -> Bool
 isMatch matcher line = 
-    case L.count matcher line of
+    case count matcher line of
         1 -> True
         _ -> False
+
+count :: String -> String -> Int 
+count m s = if isInfixOf m s then 1 else 0
 
 parseTimestampFromLine :: TimeF -> Int -> Int -> String -> UTCTime
 parseTimestampFromLine format begining end line = do

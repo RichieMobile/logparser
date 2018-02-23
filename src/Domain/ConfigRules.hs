@@ -14,7 +14,7 @@ data ConfigRules = ConfigRules {
 } deriving (Eq, Generic, Show)
 
 emptyConfig :: ConfigRules
-emptyConfig = ConfigRules [R.Rule "" "" R.counter]
+emptyConfig = ConfigRules [R.Rule "" "" R.counter "" ""]
 
 instance FromJSON ConfigRules
 

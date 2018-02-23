@@ -3,12 +3,16 @@
         {
             "matcher" : "conreq",
             "comparitor" : "",
-            "processor" : "count"
+            "processor" : "count",
+            "timestampFormat" : "",
+            "range" : ""
         },
         {
             "matcher" : "conreq",
             "comparitor" : "Rest Request",
-            "processor" : "ratio"
+            "processor" : "ratio",
+            "timestampFormat" : "",
+            "range" : ""
         }
     ]
 }

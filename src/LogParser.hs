@@ -9,6 +9,7 @@ import Domain.Rule
 import Numeric
 import Control.Monad
 import qualified Data.ByteString.Lazy as B
+import qualified Matchers.TimeAverager as T 
 
 type LogFilePath = String
 type ConfigFilePath = String
@@ -36,6 +37,7 @@ parseWithRule :: Rule -> [String] -> String
 parseWithRule r xs = case (processor r) of
         "count" -> "\nCount Match\n" ++ parseWithMatcher (matcher r) xs
         "ratio" -> "\nRatio Match\n" ++ parseWithRatio (matcher r) (comparitor r) xs 
+        "avgTime" -> T.parseAverageTime (matcher r) (comparitor r) (timestampFormat r) (range r) xs
         _ -> "Unknown processor!"
 
 parseWithMatcher :: Matcher -> [String] -> String

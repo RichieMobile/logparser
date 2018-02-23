@@ -18,6 +18,11 @@ spec = do
         \Failed %: 50.00%\n\n"
       parse "test/testfiles/config.json" ["test/testfiles/log.log"] `shouldReturn` expected
 
+    it "Should read a log file and a config file and display averaget time stats properly" $ do
+      let expected = "\n Average Time to Complete\nComparitor 1: C:Comparitor 2: \
+        \D:Average time to complete (minutes): 33\n"
+      parse "test/testfiles/configAvgTime.json" ["test/testfiles/logAvgTime.log"] `shouldReturn` expected
+
   describe "parseWithMatcher" $ do
     it "Should return formated string output `matcher` = `count`" $
       parseWithMatcher "conreq" ["conreq", "conreq"] `shouldBe` "conreq = 2"
