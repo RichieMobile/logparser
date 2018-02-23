@@ -28,6 +28,28 @@ spec = do
         show (parseTimestamp format dateLine) `shouldBe` "2018-02-20 09:06:54 UTC"
 
     it "Should calculate average time in picoseconds" $ do
-        let dateLine = ["C: 2018-02-20 09:06:54", "D: 2018-02-20 10:06:54"]
+        let dateLine = ["C: 2018-02-20 09:06:54", "D: 2018-02-20 10:06:54"]  ++
+                       ["C: 2018-02-20 10:06:54", "D: 2018-02-20 10:12:54"]
         let format = "%Y-%m-%d %T"
-        show (calculateAverageTime "C:" "D:" format "2-21" dateLine) `shouldBe` "-60"
+        show (calculateAverageTime "C:" "D:" format "3-22" dateLine) `shouldBe` "33"
+
+    it "It should parse range properly" $ do
+        let range = "2-13"
+        parseRange range `shouldBe` Just (2, 13)
+
+    it "Should return Nothing when range is empty" $ do
+        let range = ""
+        parseRange range `shouldBe` Nothing
+
+    it "Should return Nothing when range starts with -" $ do
+        let range = "-15"
+        parseRange range `shouldBe` Nothing
+
+    it "Should return Nothing when range ends with -" $ do
+        let range = "14-"
+        parseRange range `shouldBe` Nothing
+
+
+
+
+    
