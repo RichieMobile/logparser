@@ -17,13 +17,6 @@ counter = "count"
 ratio = "ratio"
 avgTime = "avgTime"
 
--- data Rule = Rule {
---       matcher :: Matcher
---     , comparitor :: String
---     , processor :: String
---     , timestampFormat :: String
---     , range :: String
--- } deriving (Eq, Generic, Show)
 emptyRule :: Rule
 emptyRule = Rule [] [] []
 
@@ -39,7 +32,7 @@ instance Prs Rule where
 
 parseWithParsers :: Rule -> [String] -> String
 parseWithParsers rule lines = do
-  let ct = "Count Match\n" ++ (foldl (\x c -> x ++ (parse c lines)) "" (counters rule)) ++ "\n"
-  let rt = "Ratio Match\n" ++ (foldl (\x r -> x ++ (parse r lines)) "" (ratios rule)) ++ "\n"
-  let ta = "Average Time to Complete\n" ++ (foldl (\x t -> x ++ (parse t lines)) "" (timeAvgs rule))
-  "\n" ++ ct ++ "\n" ++ rt ++ ta
+  let ct = foldl (\x c -> x ++ (parse c lines)) "" (counters rule)
+  let rt = foldl (\x r -> x ++ (parse r lines)) "" (ratios rule)
+  let ta = foldl (\x t -> x ++ (parse t lines)) "" (timeAvgs rule)
+  ct ++ "\n" ++ rt ++ "\n" ++ ta
