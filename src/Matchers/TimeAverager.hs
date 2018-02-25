@@ -1,9 +1,15 @@
+{-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE OverloadedStrings #-}
+
 module Matchers.TimeAverager where
 
+import Data.Aeson
+import GHC.Generics
 import Data.List
 import Data.Time
-import Data.Time.Format
 import Data.Time.Clock
+import Matchers.Parser
+import Utils.Counter
 
 type BeginningComp = String
 type EndComp = String
@@ -11,9 +17,19 @@ type TimeF = String
 type FileLines = String
 type Range = String
 
+data AverageTimeParser = AverageTimeParser {
+      beginningComp :: String
+    , endComp :: String
+    , timeFormat :: String
+    , range :: String
+} deriving (Eq, Generic, Show)
+
+instance FromJSON AverageTimeParser
+instance Prs AverageTimeParser where
+    parse a lines = parseAverageTime (beginningComp a) (endComp a) (timeFormat a) (range a) lines
+
 parseAverageTime :: BeginningComp -> EndComp -> TimeF -> Range -> [FileLines] -> String
 parseAverageTime bC eC f r lines =
-    "\n Average Time to Complete\n" ++ 
     "Comparitor 1: " ++ bC ++
     "Comparitor 2: " ++ eC ++
     "Average time to complete (minutes): " ++ show (calculateAverageTime bC eC f r lines)
@@ -54,9 +70,6 @@ isMatch matcher line =
     case count matcher line of
         1 -> True
         _ -> False
-
-count :: String -> String -> Int 
-count m s = if isInfixOf m s then 1 else 0
 
 parseTimestampFromLine :: TimeF -> Int -> Int -> String -> UTCTime
 parseTimestampFromLine format begining end line = do

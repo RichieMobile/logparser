@@ -1,18 +1,25 @@
 {
     "rules": [
         {
-            "matcher" : "conreq",
-            "comparitor" : "",
-            "processor" : "count",
-            "timestampFormat" : "",
-            "range" : ""
-        },
-        {
-            "matcher" : "conreq",
-            "comparitor" : "Rest Request",
-            "processor" : "ratio",
-            "timestampFormat" : "",
-            "range" : ""
+            "counters": [
+                {
+                    "matcher" : "conreq"
+                }
+            ],
+            "ratios": [
+                {
+                    "firstComp" : "conreq",
+                    "secondComp" : "Rest Request"
+                }
+            ],
+            "timeAvgs": [
+                {
+                    "beginningComp" : "conreq",
+                    "endComp" : "Rest Request",
+                    "timeFormat" : "%Y-%m-%d %T",
+                    "range" : "3-22"
+                }
+            ]        
         }
     ]
 }

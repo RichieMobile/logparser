@@ -12,11 +12,10 @@ import qualified Data.ByteString.Lazy as B
 data ConfigRules = ConfigRules {
     rules :: [R.Rule]
 } deriving (Eq, Generic, Show)
+instance FromJSON ConfigRules
 
 emptyConfig :: ConfigRules
-emptyConfig = ConfigRules [R.Rule "" "" R.counter "" ""]
-
-instance FromJSON ConfigRules
+emptyConfig = ConfigRules []
 
 decodeConfig :: B.ByteString -> ConfigRules
 decodeConfig config = case (decode config) of

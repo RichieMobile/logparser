@@ -19,6 +19,9 @@ library
                      , Domain.ConfigRules
                      , Domain.Rule
                      , Matchers.TimeAverager
+                     , Matchers.Counter
+                     , Matchers.RatioCalculator
+                     , Utils.Counter
   build-depends:       base >= 4.7 && < 5
                      , aeson
                      , bytestring
