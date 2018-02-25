@@ -1,0 +1,11 @@
+{
+    "rules": [
+        {
+            "matcher" : "C:",
+            "comparitor" : "D:",
+            "processor" : "avgTime",
+            "timestampFormat" : "%Y-%m-%d %T",
+            "range" : "3-22"
+        }
+    ]
+}

@@ -2,6 +2,10 @@ module LogParserSpec (main, spec) where
 
 import Test.Hspec
 import Test.QuickCheck
+import Matchers.Counter
+import Matchers.RatioCalculator
+import Matchers.TimeAverager
+import Utils.Counter
 
 import LogParser
 -- `main` is here so that this module can be run from GHCi on its own.  It is
@@ -13,9 +17,18 @@ spec :: Spec
 spec = do
   describe "parse" $ do
     it "Should read a log file and a config file and display processor output properly" $ do
-      let expected ="\nCount Match\nconreq = 2\n\nRatio Match\nSuccessful: \
-        \conreq = 2.0\nFailed: Rest Request = 2.0\nSuccessful %: 50.00%\n\
-        \Failed %: 50.00%\n\n"
+      let expected ="\nCount Match\n\
+        \conreq = 2\n\n\
+        \Ratio Match\n\
+        \Successful: conreq = 2.0\n\
+        \Failed: Rest Request = 2.0\n\
+        \Successful %: 50.00%\n\
+        \Failed %: 50.00%\n\n\
+        \Average Time to Complete\n\
+        \Comparitor 1: conreq\
+        \Comparitor 2: Rest Request\
+        \Average time to complete (minutes): 33\n"
+
       parse "test/testfiles/config.json" ["test/testfiles/log.log"] `shouldReturn` expected
 
   describe "parseWithMatcher" $ do

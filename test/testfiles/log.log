@@ -1,5 +1,10 @@
-Starting conreq
-Finished conreq
-Starting Rest Request
-Finished Rest Request
-Starting OPM
+C: 2018-02-20 09:06:54 Starting conreq
+D: 2018-02-20 10:06:54 Finished conreq
+C: 2018-02-20 10:06:54 Starting Rest Request
+D: 2018-02-20 10:12:54 Finished Rest Request
+E: 2018-02-20 10:12:55 Starting OPM
+
+
+
+
+
