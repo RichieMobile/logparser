@@ -10,6 +10,7 @@ import Matchers.TimeAverager
 import Matchers.Counter
 import Matchers.RatioCalculator
 import Matchers.Parser
+import Control.Monad
 
 type Matcher = String
 
@@ -28,11 +29,17 @@ data Rule = Rule {
 instance FromJSON Rule
 
 instance Prs Rule where
-  parse a line = parseWithParsers a line
+  parse a filePath = do
+    output <- parseWithParsers a filePath
+    return output
 
-parseWithParsers :: Rule -> [String] -> String
+parseWithParsers :: Rule -> [FilePath] -> IO String
 parseWithParsers rule lines = do
-  let ct = foldl (\x c -> x ++ (parse c lines)) "" (counters rule)
-  let rt = foldl (\x r -> x ++ (parse r lines)) "" (ratios rule)
-  let ta = foldl (\x t -> x ++ (parse t lines)) "" (timeAvgs rule)
-  ct ++ "\n" ++ rt ++ "\n" ++ ta
+  ct <- foldM (\x c -> fmap (x++) (parse c lines)) "" (counters rule)
+  rt <- foldM (\x r -> fmap (x++) (parse r lines)) "" (ratios rule)
+  ta <- foldM (\x t -> fmap (x++) (parse t lines)) "" (timeAvgs rule)
+  let output = "\nCount Match\n" ++ ct ++ 
+               "\n\nRatio Match\n" ++ rt ++ 
+               "\nAverage Time to Complete\n" ++ ta
+
+  return output

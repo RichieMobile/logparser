@@ -14,11 +14,16 @@ type LogFilePath = String
 type ConfigFilePath = String
 
 parse :: ConfigFilePath -> [LogFilePath] -> IO String
-parse c l = do 
+parse c xf = do 
     configContents <- B.readFile c
-    logContents <- readLogFiles l
     let parsedRules = rules $ decodeConfig configContents
-    let output = foldl (\o m -> o ++ (P.parse m logContents) ++ "\n") "" parsedRules
+    output <- foldM (\o m -> formatOutput o m xf) "" parsedRules
+    return output
+
+formatOutput :: String -> Rule -> [String] -> IO String
+formatOutput s r xs = do
+    outputFromRule <- P.parse r xs
+    let output = s ++ outputFromRule ++ "\n"
     return output
 
 readLogFiles :: [FilePath] -> IO [String]

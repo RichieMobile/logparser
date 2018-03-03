@@ -21,6 +21,7 @@ library
                      , Matchers.TimeAverager
                      , Matchers.Counter
                      , Matchers.RatioCalculator
+                     , Matchers.Parser
                      , Utils.Counter
   build-depends:       base >= 4.7 && < 5
                      , aeson

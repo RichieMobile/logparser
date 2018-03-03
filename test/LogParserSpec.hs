@@ -25,8 +25,8 @@ spec = do
         \Successful %: 50.00%\n\
         \Failed %: 50.00%\n\n\
         \Average Time to Complete\n\
-        \Comparitor 1: conreq\
-        \Comparitor 2: Rest Request\
+        \Comparitor 1: conreq\n\
+        \Comparitor 2: Rest Request\n\
         \Average time to complete (minutes): 33\n"
 
       parse "test/testfiles/config.json" ["test/testfiles/log.log"] `shouldReturn` expected

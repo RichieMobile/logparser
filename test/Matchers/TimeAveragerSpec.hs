@@ -2,7 +2,7 @@ module Matchers.TimeAveragerSpec (main, spec) where
 
 import Test.Hspec
 import Test.QuickCheck
-
+import Matchers.Parser
 import Matchers.TimeAverager
 -- `main` is here so that this module can be run from GHCi on its own.  It is
 -- not needed for automatic spec discovery.
@@ -48,6 +48,14 @@ spec = do
     it "Should return Nothing when range ends with -" $ do
         let range = "14-"
         parseRange range `shouldBe` Nothing
+    
+    it "Should return average time as a string" $ do
+        let paths = ["test/testfiles/TimeAverager/log1.log"] ++
+                    ["test/testfiles/TimeAverager/log2.log"]
+        let format = "%Y-%m-%d %T"
+        let ta = AverageTimeParser "C:" "D:" format "3-22"
+        parse ta paths `shouldReturn` "Comparitor 1: C:\nComparitor 2: D:\nAverage time to complete (minutes): 33"
+
 
 
 

@@ -25,13 +25,32 @@ data AverageTimeParser = AverageTimeParser {
 } deriving (Eq, Generic, Show)
 
 instance FromJSON AverageTimeParser
+-- instance Prs AverageTimeParser where
+--     parse a lines = parseAverageTime (beginningComp a) (endComp a) (timeFormat a) (range a) lines
 instance Prs AverageTimeParser where
-    parse a lines = parseAverageTime (beginningComp a) (endComp a) (timeFormat a) (range a) lines
+    parse a paths = do
+        times <- mapM (\file -> parseAverageTime' a file) paths
+        let sumDiff = sum times 
+        let avg = sumDiff `div` (toInteger $ length times)
+        return $ presentAverateTime (beginningComp a) (endComp a) avg
+        
+presentAverateTime :: String -> String -> Integer -> String
+presentAverateTime a b r = 
+    "Comparitor 1: " ++ a ++ "\n" ++ 
+    "Comparitor 2: " ++ b ++ "\n" ++
+    "Average time to complete (minutes): " ++ (show r)
+    
+parseAverageTime' :: AverageTimeParser -> FilePath -> IO Integer
+parseAverageTime' a f = do
+    contents <- readFile f
+    let fl = lines contents
+    let averageTime = calculateAverageTime (beginningComp a) (endComp a) (timeFormat a) (range a) fl
+    return averageTime
 
 parseAverageTime :: BeginningComp -> EndComp -> TimeF -> Range -> [FileLines] -> String
 parseAverageTime bC eC f r lines =
-    "Comparitor 1: " ++ bC ++
-    "Comparitor 2: " ++ eC ++
+    "Comparitor 1: " ++ bC ++ "\n" ++
+    "Comparitor 2: " ++ eC ++ "\n" ++
     "Average time to complete (minutes): " ++ show (calculateAverageTime bC eC f r lines)
 
 calculateAverageTime :: BeginningComp -> EndComp -> TimeF -> Range -> [FileLines] -> Integer
